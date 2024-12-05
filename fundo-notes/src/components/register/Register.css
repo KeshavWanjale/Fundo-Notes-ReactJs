@@ -5,13 +5,13 @@ body {
   }
   
   /* Container */
-  .register-global {
+.register-global {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
   
-  .register-container {
+.register-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,33 +23,33 @@ body {
   }
   
   /* Form Container */
-  .register-form-container {
+.register-form-container {
     flex: 1;
     padding: 40px;
-  }
+}
   
-  h1 {
+h1 {
     color: #fbbd08;
     font-size: 32px;
     margin-bottom: 10px;
-  }
+}
   
-  h2 {
+h2 {
     color: #333;
     font-size: 20px;
     margin-bottom: 20px;
-  }
+}
   
-  form {
+form {
     display: flex;
     flex-direction: column;
-  }
-  
-  .register-input-group {
+}
+
+.register-input-group {
     display: flex;
     gap: 10px;
     margin-bottom: 15px;
-  }
+}
   
   small {
     color: #666;

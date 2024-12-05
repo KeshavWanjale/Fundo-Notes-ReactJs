@@ -1,0 +1,28 @@
+import axios from 'axios';
+
+
+const BASE_URL = 'http://127.0.0.1:8000/api';
+
+export const RegisterApiCall = (userData) => {
+    return axios.post(`${BASE_URL}/user/register`, userData)
+      .then((response) => response.data)
+      .catch((error) => {
+        throw error.response ? error.response.data : error;
+      });
+};
+
+
+export const LoginApiCall = (loginData) => {
+    return axios.post(`${BASE_URL}/user/login`, loginData)
+      .then((response) => {
+        const { data } = response;
+        if (data.status === "success") {
+          localStorage.setItem('userEmail', data.data.email); 
+          localStorage.setItem('accessToken', data.access);
+        }
+        return data; 
+      })
+      .catch((error) => {
+        throw error.response ? error.response.data : error;
+      });
+};
