@@ -2,18 +2,21 @@ import React, { useState } from 'react';
 import "./Login.css";
 import TextField from '@mui/material/TextField';
 import { LoginApiCall } from '../../utils/Apis';
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
   
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setError('Invalid email format');
+      setError('Invalid email format'); 
       return;
     }
   
@@ -23,6 +26,7 @@ export default function Login() {
       .then((response) => {
         console.log('Login successful:', response);
         alert('Login successful');
+        navigate("/dashboard")
       })
       .catch((err) => {
         console.error('Login error:', err);
@@ -67,7 +71,7 @@ export default function Login() {
               <a href="#">Forgot password</a>
             </div>
             <div className="login-bottom-links">
-              <a href="register.html" className="login-create-account">Create account</a>
+              <a href="#" className="login-create-account" onClick={()=> navigate('/register')}>Create account</a>
               <button type="submit" className="login-btn">
                 Login
               </button>

@@ -3,6 +3,7 @@ import "./Register.css";
 import TextField from '@mui/material/TextField';
 import RegisterImage from '../../assets/register.jpg';
 import { RegisterApiCall } from '../../utils/Apis';
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -10,6 +11,7 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate()
 
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -119,7 +121,7 @@ export default function Register() {
             <small>Use 8 or more characters with a mix of letters, numbers & symbols</small>
 
             <div className="register-bottom-links">
-              <a href="login.html" className="signin-link">
+              <a href="#" className="signin-link" onClick={()=> navigate("/login")}>
                 Sign in instead
               </a>
               <button type="submit" className="register-btn">
