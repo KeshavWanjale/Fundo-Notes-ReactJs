@@ -1,64 +1,31 @@
 .card-main-cnt {
-    min-width: 250px;
-    min-height: 200px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px rgba(123, 123, 123, 0.8);
-    padding: 5%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: white;
-  
-    &:hover .card-button-cnt {
-      visibility: visible;
-    }
-  
-    .card-button-cnt {
-      display: flex;
-      justify-content: flex-start;
-      gap: 5px; 
-      visibility: hidden;
-      cursor: pointer;
-  
-      .delete, .other-delete {
-        display: flex;
-        align-items: center;
-        gap: 5px; 
-      }
-  
-      .color-menu {
-        position: relative;
-  
-        .color-row {
-          display: none;
-          position: absolute;
-          top: 100%;
-          left: 0;
-          padding: 10px;
-          border: 1px solid rgb(167, 165, 165);
-          background-color: rgb(255, 255, 255);
-          border-radius: 5px;
-          display: flex;
-          gap: 10px; 
-          margin-top: 10px;
-        }
-  
-        &:hover .color-row {
-          display: flex;
-        }
-      }
-  
-      .color-option {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        cursor: pointer;
-        box-sizing: border-box;
-      }
-  
-      .color-option:hover {
-        border: 2.5px solid rgb(46, 43, 43);
-      }
-    }
+  min-width: 250px;
+  min-height: 200px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(123, 123, 123, 0.8);
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+
+  &:hover .card-button-cnt {
+    visibility: visible;
   }
-  
+
+  .card-button-cnt {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+    visibility: hidden;
+    cursor: pointer;
+
+    .delete,
+    .other-delete {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+      
+  }
+}

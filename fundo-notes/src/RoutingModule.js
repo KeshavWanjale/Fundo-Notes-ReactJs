@@ -7,13 +7,15 @@ import NotesContainer from "./components/notesContainer/NotesContainer";
 import ArchiveContainer from "./components/archiveContainer/ArchiveContainer";
 import TrashContainer from "./components/trashContainer/TrashContainer";
 import NoteCards from "./components/noteCards/NoteCards";
+import AddNotes from "./components/addNotes/AddNotes";
 
 
-function RoutingModule(){
+export default function RoutingModule(){
     const routes = createBrowserRouter([
         {
             'path': '',
-            'element': <NoteCards/>
+            'element': <AddNotes/>
+            // 'element': <NoteCards/>
         },
 
         {
@@ -54,4 +56,3 @@ function RoutingModule(){
     )
 };
 
-export default RoutingModule

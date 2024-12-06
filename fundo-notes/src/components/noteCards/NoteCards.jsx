@@ -15,7 +15,7 @@ export default function NoteCards() {
       <div className="card-wrapper-cnt">
         <div className="card-main-cnt" >
           <div className="note-card-content">
-            <h6>{"Tittle"}</h6>
+            <h3>{"Tittle"}</h3>
             <p>{"Description"}</p>
           </div>
 
@@ -32,22 +32,7 @@ export default function NoteCards() {
               <IconButton aria-label="change color">
                 <PaletteIcon className="select-color" />
               </IconButton>
-              <div className="color-row">
-                {[
-                  "#ffeb3b",
-                  "#ff5722",
-                  "#4caf50",
-                  "#03a9f4",
-                  "#9c27b0",
-                  "#e91e63",
-                ].map((color) => (
-                  <div
-                    key={color}
-                    className="color-option"
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
+    
             </div>
 
             <IconButton aria-label="add image">
