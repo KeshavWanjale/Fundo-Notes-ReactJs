@@ -15,8 +15,8 @@ export default function NoteCards() {
       <div className="card-wrapper-cnt">
         <div className="card-main-cnt" >
           <div className="note-card-content">
-            <h6>{"Untitled"}</h6>
-            <p>{"No description available"}</p>
+            <h6>{"Tittle"}</h6>
+            <p>{"Description"}</p>
           </div>
 
 
