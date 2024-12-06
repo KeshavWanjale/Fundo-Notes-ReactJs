@@ -6,10 +6,16 @@ import DashboardContainer from "./components/dashboardContainer/DashboardContain
 import NotesContainer from "./components/notesContainer/NotesContainer";
 import ArchiveContainer from "./components/archiveContainer/ArchiveContainer";
 import TrashContainer from "./components/trashContainer/TrashContainer";
+import NoteCards from "./components/noteCards/NoteCards";
 
 
 function RoutingModule(){
     const routes = createBrowserRouter([
+        {
+            'path': '',
+            'element': <NoteCards/>
+        },
+
         {
             'path': 'register',
             'element': <Register/>
