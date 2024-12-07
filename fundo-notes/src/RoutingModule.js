@@ -8,6 +8,7 @@ import ArchiveContainer from "./components/archiveContainer/ArchiveContainer";
 import TrashContainer from "./components/trashContainer/TrashContainer";
 import NoteCards from "./components/noteCards/NoteCards";
 import AddNotes from "./components/addNotes/AddNotes";
+import HeaderBar from "./components/headerBar/HeaderBar";
 
 
 export default function RoutingModule(){
@@ -16,6 +17,7 @@ export default function RoutingModule(){
             'path': '',
             'element': <AddNotes/>
             // 'element': <NoteCards/>
+            // 'element': <HeaderBar/>
         },
 
         {

@@ -1,11 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom';
+import HeaderBar from '../headerBar/HeaderBar';
 
 
 export default function DashboardContainer() {
   return (
     <div>
-      <h1>DashBoard</h1>
+      <HeaderBar/>
       <Outlet/>
     </div>
   )
