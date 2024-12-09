@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import DashboardContainer from '../dashboardContainer/DashboardContainer';
 import NoteCards from '../noteCards/NoteCards';
 import AddNotes from '../addNotes/AddNotes';
 import './NotesContainer.css'
@@ -19,26 +18,42 @@ export default function NotesContainer() {
       setNotesList(res.data);
     } catch (error) {
       console.error('Error fetching notes:', error);
-      setNotesList([]); 
+      setNotesList([]);
     }
   };
 
+  const handleNotesList = (data, action) => {
+    if (action === "add") {
+      setNotesList((prev) => [...prev, data]);
+    } else if (action === "archive" || action === "trash") {
+      setNotesList((prev) => prev.filter((note) => note.id !== data.id));
+    } else if (action === "edit" || action === "color") {
+      const updatedList = notesList.map((note) => {
+        if (note.id === data.id) {
+          return data;
+        }
+        return note;
+      });
+      console.log(updatedList);
+      setNotesList(updatedList);
+    } else {
+      console.error("Unknown action:", action);
+    }
+  };
 
   return (
-
-
-<>
-<AddNotes />
-<div className="space-container">
-<div className="note-container">
+    <>
+      <AddNotes handleNotesList={handleNotesList} />
+      <div className="space-container">
+        <div className="note-container">
           {notesList.length > 0 ? (
             notesList.map((noteObj) => <NoteCards key={noteObj.id} noteDetails={noteObj} />)
           ) : (
             <p>No notes available.</p>
           )}
-      
+
+        </div>
       </div>
-</div>
-</>
+    </>
   );
 }

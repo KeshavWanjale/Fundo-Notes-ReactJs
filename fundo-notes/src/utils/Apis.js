@@ -40,3 +40,17 @@ export const getAllNotesApiCall = async () => {
   console.log("Note response:", response.data);
   return response.data;
 };
+
+// Create a new note
+export const addNoteApi = async (data) => {
+  const token = localStorage.getItem("accessToken");
+  console.log("token:", token);
+
+  let response = await axios.post(`${BASE_URL}/notes/`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log("Note creation response:", response.data);
+  return response.data;
+};
