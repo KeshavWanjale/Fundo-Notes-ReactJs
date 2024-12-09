@@ -26,3 +26,17 @@ export const LoginApiCall = (loginData) => {
         throw error.response ? error.response.data : error;
       });
 };
+
+export const getAllNotesApiCall = async () => {
+  const token = localStorage.getItem("accessToken");
+  console.log("token:", token);
+
+  let response = await axios.get(`${BASE_URL}/notes/` , {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log("Note response:", response.data);
+  return response.data;
+};

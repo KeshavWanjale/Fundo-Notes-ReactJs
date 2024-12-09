@@ -26,7 +26,7 @@ export default function Login() {
       .then((response) => {
         console.log('Login successful:', response);
         alert('Login successful');
-        navigate("/dashboard")
+        navigate("/dashboard/notes")
       })
       .catch((err) => {
         console.error('Login error:', err);
