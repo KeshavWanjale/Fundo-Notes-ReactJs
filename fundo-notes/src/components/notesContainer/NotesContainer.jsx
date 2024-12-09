@@ -27,7 +27,7 @@ export default function NotesContainer() {
     <>
       <DashboardContainer />
       <div>
-        <AddNotes handleNotesList={handleNotesList} />
+        <AddNotes />
       </div>
       <div className="space-container">
         <div className="note-container">
