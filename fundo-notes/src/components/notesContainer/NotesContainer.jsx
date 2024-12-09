@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DashboardContainer from '../dashboardContainer/DashboardContainer';
 import NoteCards from '../noteCards/NoteCards';
 import AddNotes from '../addNotes/AddNotes';
+import './NotesContainer.css'
 import { getAllNotesApiCall } from '../../utils/Apis';
 
 export default function NotesContainer() {
@@ -24,20 +25,20 @@ export default function NotesContainer() {
 
 
   return (
-    <>
-      <DashboardContainer />
-      <div>
-        <AddNotes />
-      </div>
-      <div className="space-container">
-        <div className="note-container">
+
+
+<>
+<AddNotes />
+<div className="space-container">
+<div className="note-container">
           {notesList.length > 0 ? (
             notesList.map((noteObj) => <NoteCards key={noteObj.id} noteDetails={noteObj} />)
           ) : (
             <p>No notes available.</p>
           )}
-        </div>
+      
       </div>
-    </>
+</div>
+</>
   );
 }

@@ -1,0 +1,5 @@
+.dashboard-main-cnt {
+    display: flex;
+    height: 100vh;
+    margin-top: 70px;
+}
