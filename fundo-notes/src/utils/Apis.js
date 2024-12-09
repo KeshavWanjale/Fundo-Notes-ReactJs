@@ -54,3 +54,32 @@ export const addNoteApi = async (data) => {
   console.log("Note creation response:", response.data);
   return response.data;
 };
+
+
+
+// Get all archived notes
+export const getArchivedNotes = async () => {
+  const token = localStorage.getItem("accessToken");
+
+  let response = await axios.get(`${BASE_URL}/notes/archived`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log("Archived notes response:", response.data);
+  return response;
+};
+
+// Get all trashed notes
+export const getTrashedNotes = async () => {
+  const token = localStorage.getItem("accessToken");
+
+  let response = await axios.get(`${BASE_URL}/notes/trashed`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log("Trashed notes response:", response.data);
+  return response;
+};

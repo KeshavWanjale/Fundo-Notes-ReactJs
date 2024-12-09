@@ -1,6 +1,7 @@
 import React from "react";
 import "./NoteCards.css";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
+import ArchiveIcon from "@mui/icons-material/Archive";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import ImageIcon from "@mui/icons-material/Image";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
@@ -8,8 +9,9 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PaletteIcon from "@mui/icons-material/Palette";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-export default function NoteCards({ noteDetails }) {
+export default function NoteCards({ noteDetails, handleNotesList, container }) {
   const { title, description, color } = noteDetails;
+
 
   return (
     <div className="card-wrapper-cnt" style={{ backgroundColor: color || "white" }}>
@@ -21,6 +23,7 @@ export default function NoteCards({ noteDetails }) {
         </div>
 
         {/* Card action buttons */}
+
         <div className="card-button-cnt">
           <IconButton aria-label="set reminder">
             <NotificationsNoneIcon />
@@ -40,7 +43,7 @@ export default function NoteCards({ noteDetails }) {
           </IconButton>
 
           <IconButton aria-label="archive note">
-            <UnarchiveIcon />
+            <ArchiveIcon />
           </IconButton>
 
           <IconButton aria-label="more options">

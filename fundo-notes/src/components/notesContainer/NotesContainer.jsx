@@ -27,15 +27,6 @@ export default function NotesContainer() {
       setNotesList((prev) => [...prev, data]);
     } else if (action === "archive" || action === "trash") {
       setNotesList((prev) => prev.filter((note) => note.id !== data.id));
-    } else if (action === "edit" || action === "color") {
-      const updatedList = notesList.map((note) => {
-        if (note.id === data.id) {
-          return data;
-        }
-        return note;
-      });
-      console.log(updatedList);
-      setNotesList(updatedList);
     } else {
       console.error("Unknown action:", action);
     }
