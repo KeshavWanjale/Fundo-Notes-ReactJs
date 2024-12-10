@@ -83,3 +83,56 @@ export const getTrashedNotes = async () => {
   console.log("Trashed notes response:", response.data);
   return response;
 };
+
+export const archiveNote = async (noteId) => {
+  const token = localStorage.getItem("accessToken");
+
+  try {
+    let response = await axios.patch(`${BASE_URL}/notes/${noteId}/toggle_archive`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Note archived:", response.data);
+    return response;
+  } catch (error) {
+    console.error("Error archiving note:", error);
+    throw error;
+  }
+};
+
+
+// Move a note to trash by ID
+export const trashNote = async (noteId) => {
+  const token = localStorage.getItem("accessToken");
+
+  try {
+    let response = await axios.patch(`${BASE_URL}/notes/${noteId}/toggle_trash`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Note moved to trash:", response.data);
+    return response;
+  } catch (error) {
+    console.error("Error moving note to trash:", error);
+    throw error;
+  }
+};
+
+// Delete a note by ID
+export const deleteNote = async (noteId) => {
+  const token = localStorage.getItem("accessToken");
+
+  try {
+    let response = await axios.delete(`${BASE_URL}/notes/${noteId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Note deleted successfully:", response);
+  } catch (error) {
+    console.error("Error deleting note:", error);
+    throw error;
+  }
+};

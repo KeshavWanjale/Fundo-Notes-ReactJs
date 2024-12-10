@@ -22,9 +22,11 @@ export default function NotesContainer() {
     }
   };
 
+
+
   const handleNotesList = (data, action) => {
     if (action === "add") {
-      setNotesList((prev) => [...prev, data]);
+      setNotesList((prev) => [ data,...prev]);
     } else if (action === "archive" || action === "trash") {
       setNotesList((prev) => prev.filter((note) => note.id !== data.id));
     } else {
@@ -38,7 +40,7 @@ export default function NotesContainer() {
       <div className="space-container">
         <div className="note-container">
           {notesList.length > 0 ? (
-            notesList.map((noteObj) => <NoteCards key={noteObj.id} noteDetails={noteObj} />)
+            notesList.map((noteObj) => <NoteCards key={noteObj.id} noteDetails={noteObj} handleNotesList={handleNotesList} container={"notes"}  />)
           ) : (
             <p>No notes available.</p>
           )}

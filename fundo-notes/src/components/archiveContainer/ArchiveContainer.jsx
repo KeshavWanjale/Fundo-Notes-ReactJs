@@ -21,6 +21,21 @@ export default function ArchiveContainer() {
     }
   };
 
+  const handleArchiveList = (data, action) => {
+    if (action === "unArchive") {
+      let updatedList = archiveList.filter((ele, index) => ele.id !== data.id);
+      setArchiveList(updatedList);
+    }
+    if (action === "archive") {
+      let updatedList = archiveList.filter((ele, index) => ele.id !== data.id);
+      setArchiveList(updatedList);
+    }
+    if (action === "trash") {
+      let updatedList = archiveList.filter((ele, index) => ele.id !== data.id);
+      setArchiveList(updatedList);
+    }
+  };
+
   return (
     <div className="main-container">
       <div className="note-container">
@@ -33,6 +48,7 @@ export default function ArchiveContainer() {
             <NoteCards
               key={archiveObj.id}
               noteDetails={archiveObj}
+              handleNotesList={handleArchiveList}
               container={"archive"}
             />
           ))

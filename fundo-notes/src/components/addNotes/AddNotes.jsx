@@ -43,6 +43,7 @@ export default function AddNotes({ mode = "add", noteDetails = {}, handleNotesLi
             if (response) {
                 handleNotesList(
                     {
+                        id: response.data.id,
                         title: title,
                         description: description,
                         color: color
