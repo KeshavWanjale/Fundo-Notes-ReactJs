@@ -26,10 +26,18 @@ export default function NotesContainer() {
 
   const handleNotesList = (data, action) => {
     if (action === "add") {
-      setNotesList((prev) => [ data,...prev]);
+      setNotesList((prev) => [data, ...prev]);
     } else if (action === "archive" || action === "trash") {
       setNotesList((prev) => prev.filter((note) => note.id !== data.id));
-    } else {
+    } else if (action === "edit" || action === "color") {
+      setNotesList((prev) => prev.map((note) => {
+        if (note.id === data.id) {
+          return data
+        }
+        return note
+      }));
+    }
+    else {
       console.error("Unknown action:", action);
     }
   };
@@ -40,7 +48,10 @@ export default function NotesContainer() {
       <div className="space-container">
         <div className="note-container">
           {notesList.length > 0 ? (
-            notesList.map((noteObj) => <NoteCards key={noteObj.id} noteDetails={noteObj} handleNotesList={handleNotesList} container={"notes"}  />)
+            notesList.map((noteObj) => <NoteCards key={noteObj.id} noteDetails={noteObj}
+              handleNotesList={handleNotesList}
+              container={"notes"}
+            />)
           ) : (
             <p>No notes available.</p>
           )}

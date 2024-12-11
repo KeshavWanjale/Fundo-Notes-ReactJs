@@ -4,34 +4,34 @@ import axios from 'axios';
 const BASE_URL = 'http://127.0.0.1:8000/api';
 
 export const RegisterApiCall = (userData) => {
-    return axios.post(`${BASE_URL}/user/register`, userData)
-      .then((response) => response.data)
-      .catch((error) => {
-        throw error.response ? error.response.data : error;
-      });
+  return axios.post(`${BASE_URL}/user/register`, userData)
+    .then((response) => response.data)
+    .catch((error) => {
+      throw error.response ? error.response.data : error;
+    });
 };
 
 
 export const LoginApiCall = (loginData) => {
-    return axios.post(`${BASE_URL}/user/login`, loginData)
-      .then((response) => {
-        const { data } = response;
-        if (data.status === "success") {
-          localStorage.setItem('userEmail', data.data.email); 
-          localStorage.setItem('accessToken', data.access);
-        }
-        return data; 
-      })
-      .catch((error) => {
-        throw error.response ? error.response.data : error;
-      });
+  return axios.post(`${BASE_URL}/user/login`, loginData)
+    .then((response) => {
+      const { data } = response;
+      if (data.status === "success") {
+        localStorage.setItem('userEmail', data.data.email);
+        localStorage.setItem('accessToken', data.access);
+      }
+      return data;
+    })
+    .catch((error) => {
+      throw error.response ? error.response.data : error;
+    });
 };
 
 export const getAllNotesApiCall = async () => {
   const token = localStorage.getItem("accessToken");
   console.log("token:", token);
 
-  let response = await axios.get(`${BASE_URL}/notes/` , {
+  let response = await axios.get(`${BASE_URL}/notes/`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -134,5 +134,41 @@ export const deleteNote = async (noteId) => {
   } catch (error) {
     console.error("Error deleting note:", error);
     throw error;
+  }
+};
+
+// Delete a note by ID
+export const updateNote = async (noteId, data) => {
+  const token = localStorage.getItem("accessToken");
+
+  try {
+    let response = await axios.put(`${BASE_URL}/notes/${noteId}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("Note updated successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating note:", error);
+    throw error;
+  }
+};
+
+// Update Color api
+export const changeNoteColorApi = async (noteId, newColor) => {
+  const token = localStorage.getItem("accessToken");
+  try {
+    let response = await axios.put(`${BASE_URL}/notes/${noteId}`,
+      { color: newColor },
+      {
+        headers: {
+
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    return response;
+  } catch (error) {
+
   }
 };

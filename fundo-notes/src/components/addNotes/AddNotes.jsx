@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import "./AddNotes.css";
+import "./AddNotes.scss";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import BrushIcon from "@mui/icons-material/Brush";
 import ImageIcon from "@mui/icons-material/Image";
@@ -10,57 +10,75 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
-import { addNoteApi } from '../../utils/Apis';
+import { addNoteApi, updateNote } from '../../utils/Apis';
+import { IconButton, Menu, MenuItem, Fade } from "@mui/material";
 
-export default function AddNotes({ mode = "add", noteDetails = {}, handleNotesList }) {
-    const [isExpanded, setIsExpanded] = useState(false);
-    const [title, setTitle] = useState(mode === "add" ? "" : noteDetails.title || "");
-    const [description, setDescription] = useState(mode === "add" ? "" : noteDetails.description || "");
-    const [color, setColor] = useState(noteDetails.color || "");
-    const [openColor, setOpenColorMenu] = useState(false);
 
-    const handleInputClick = () => {
-        setIsExpanded(true);
-    };
+export default function AddNotes({ noteDetails, handleNotesList, editMode = false, closeEditNote }) {
 
-    const handleClose = () => {
-        setIsExpanded(false);
-        if (mode === "add") {
-            handleAddNote();
+  const [isExpanded, setIsExpanded] = useState(editMode);
+  const [title, setTitle] = useState(noteDetails ? noteDetails.title : "");
+  const [description, setDescription] = useState(noteDetails ? noteDetails.description : "");
+  const [color, setColor] = useState(noteDetails ? noteDetails.color : "#ffffff");
+  const [colorAnchorEl, setColorAnchorEl] = useState(null);
+  const openColorPalette = Boolean(colorAnchorEl);
+
+  const handleColorMenuClick = (event) => {
+    setColorAnchorEl(event.currentTarget);
+  };
+
+  const handleColorClose = () => {
+    setColorAnchorEl(null);
+  };
+
+  const handleInputClick = () => {
+    setIsExpanded(true);
+  };
+
+  const handleClose = () => {
+    setIsExpanded(false);
+    handleAddNote();
+
+
+    setColor("");
+    setTitle("");
+    setDescription("");
+  }
+
+  const handleAddNote = async () => {
+
+    if (title && description) {
+      const payload = { title, description, color };
+
+      let noteObj = {}
+      if (editMode) {
+        noteObj = {
+          ...noteDetails,
+          title,
+          description
         }
+        await updateNote(noteDetails.id, noteObj);
+      } else {
+        const response = await addNoteApi(payload);
+        console.log(response)
+        noteObj = response.data;
+      }
 
-        
-        setColor("");
-        setTitle("");
-        setDescription("");
+      if (editMode) {
+        closeEditNote(false)
+      }
+
+      handleNotesList(
+        noteObj,
+        editMode ? "edit" : "add"
+      );
+
     }
+  };
 
-    const handleAddNote = async () => {
-        if (title && description) {
-            const payload = { title, description, color };
-
-            const response = await addNoteApi(payload);
-            if (response) {
-                handleNotesList(
-                    {
-                        id: response.data.id,
-                        title: title,
-                        description: description,
-                        color: color
-                    },
-                    "add"
-                );
-
-                console.log("Note added successfully:", response);
-            } else {
-                console.log("Title and description are required.");
-            }
-        }
-    };
-
-    return (
-        <>
-            {isExpanded ? (
+  return (
+    <>
+      {isExpanded ? (
         <div
           className="expanded-note"
           style={{ backgroundColor: color || noteDetails?.color || "#ffffff" }}
@@ -84,9 +102,9 @@ export default function AddNotes({ mode = "add", noteDetails = {}, handleNotesLi
             <div className="icons">
               <NotificationsNoneIcon className="icon" />
               <PersonAddIcon className="icon" />
-              <PaletteIcon className="icon"  />
+              <PaletteIcon className="icon" onClick={handleColorMenuClick} />
               <ImageIcon className="icon" />
-              <ArchiveIcon className="icon"  />
+              <ArchiveIcon className="icon" />
               <MoreVertIcon className="icon" />
               <UndoIcon className="icon" />
               <RedoIcon className="icon" />
@@ -96,39 +114,48 @@ export default function AddNotes({ mode = "add", noteDetails = {}, handleNotesLi
             </button>
           </div>
 
-          {openColor && (
-            <div className="color-menu">
-              <div className="color-row">
-                {["#FFEB3B", "#FF7043", "#66BB6A", "#29B6F6", "#AB47BC", "#FF4081"].map(
-                  (color) => (
-                    <div
-                      key={color}
-                      className="color-option"
-                      style={{ backgroundColor: color }}
-                    />
-                  )
-                )}
-              </div>
+
+          <Menu
+            anchorEl={colorAnchorEl}
+            open={openColorPalette}
+            onClose={handleColorClose}
+          >
+            <div className="color-palate-cnt">
+              <div className="col1" onClick={() => setColor("#FFFFFF")}></div>
+              <div className="col2" onClick={() => setColor("#FAAFA8")}></div>
+              <div className="col3" onClick={() => setColor("#F39F76")}></div>
+              <div className="col4" onClick={() => setColor("#FFF8B8")}></div>
+              <div className="col5" onClick={() => setColor("#E2F6D3")}></div>
+              <div className="col6" onClick={() => setColor("#B4DDD3")}></div>
+              <div className="col7" onClick={() => setColor("#D4E4ED")}></div>
+              <div className="col8" onClick={() => setColor("#AECCDC")}></div>
+              <div className="col9" onClick={() => setColor("#D3BFDB")}></div>
+              <div className="col10" onClick={() => setColor("#F6E2DD")}></div>
+              <div className="col11" onClick={() => setColor("#E9E3D4")}></div>
+              <div className="col12" onClick={() => setColor("#EFEFF1")}></div>
             </div>
-          )}
+          </Menu>
+
+
         </div>
+
       ) : (
-                <div className="collapsed-note" onClick={handleInputClick}>
-                    <input
-                        type="text"
-                        placeholder="Take a note..."
-                        className="collapsed-input"
-                        value=""
-                        readOnly
-                    />
-                    <div className="collapsed-icons">
-                        <CheckBoxIcon className="icon" />
-                        <BrushIcon className="icon" />
-                        <ImageIcon className="icon" />
-                    </div>
-                </div>
-            )
-           }
-        </>
-    )
+        <div className="collapsed-note" onClick={handleInputClick}>
+          <input
+            type="text"
+            placeholder="Take a note..."
+            className="collapsed-input"
+            value=""
+            readOnly
+          />
+          <div className="collapsed-icons">
+            <CheckBoxIcon className="icon" />
+            <BrushIcon className="icon" />
+            <ImageIcon className="icon" />
+          </div>
+        </div>
+      )
+      }
+    </>
+  )
 }

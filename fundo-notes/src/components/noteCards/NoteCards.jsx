@@ -1,5 +1,5 @@
-import {React, useState} from "react";
-import "./NoteCards.css";
+import { React, useState } from "react";
+import "./NoteCards.scss";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import { IconButton, Menu, MenuItem, Fade } from "@mui/material";
@@ -8,21 +8,26 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PaletteIcon from "@mui/icons-material/Palette";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { archiveNote, trashNote, deleteNote } from "../../utils/Apis";
+import { archiveNote, trashNote, deleteNote, changeNoteColorApi } from "../../utils/Apis";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
+import Modal from "@mui/material/Modal";
+import AddNotes from "../addNotes/AddNotes";
 
 export default function NoteCards({ noteDetails, handleNotesList, container }) {
-  const [bgColor, setBgColor] = useState();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [openColorMenu, setOpenColorMenu] = useState(false);
+  const [openEditNote, setOpenEditNote] = useState(false);
+  const [colorAnchorEl, setColorAnchorEl] = useState(null);
+  const openColorPalette = Boolean(colorAnchorEl);
 
-  const open = Boolean(anchorEl);
-  const openColor = openColorMenu;
-
-  const handleColorMenuClick = () => {
-    setOpenColorMenu(!openColorMenu);
+  const handleColorMenuClick = (event) => {
+    setColorAnchorEl(event.currentTarget);
   };
+
+  const handleColorClose = () => {
+    setColorAnchorEl(null);
+  };
+
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -36,22 +41,25 @@ export default function NoteCards({ noteDetails, handleNotesList, container }) {
     if (action === "archive" || action === "unArchive") {
       archiveNote(noteDetails.id);
     }
-    if (action === "delete_forever") {
+    else if (action === "delete_forever") {
       deleteNote(noteDetails.id);
     }
-
-    if (action === "trash" || action === "recover") {
+    else if (action === "trash" || action === "recover") {
       trashNote(noteDetails.id);
+    } else {
+      changeNoteColorApi(noteDetails.id, action)
+      noteDetails.color = action
+      action = "color"
     }
-
     handleNotesList(noteDetails, action);
   };
 
   return (
     <div className="card-wrapper-cnt">
-      <div className="card-main-cnt" style={{ backgroundColor: bgColor }}>
+      <div className="card-main-cnt" style={{ backgroundColor: noteDetails.color || "#ffffff" }}>
         <div
           className="note-card-content"
+          onClick={() => setOpenEditNote(true)}
         >
           <h6>{noteDetails.title}</h6>
           <p>{noteDetails.description}</p>
@@ -63,36 +71,73 @@ export default function NoteCards({ noteDetails, handleNotesList, container }) {
               <NotificationsNoneIcon />
             </IconButton>
             <IconButton aria-label="add collaborator">
-              <PersonAddIcon />
+              <PersonAddIcon className="color-menu" />
+            </IconButton>
+            <IconButton
+              aria-label="change color"
+              onClick={handleColorMenuClick}
+            >
+              <PaletteIcon />
             </IconButton>
 
-            <div className="color-menu">
-              <IconButton
-                aria-label="change color"
-                onClick={handleColorMenuClick}
-              >
-                <PaletteIcon className="select-color" />
-              </IconButton>
-              {openColor && (
-                <div className="color-row">
-                  {[
-                    "#ffeb3b",
-                    "#ff5722",
-                    "#4caf50",
-                    "#03a9f4",
-                    "#9c27b0",
-                    "#e91e63",
-                  ].map((color) => (
-                    <div
-                      key={color}
-                      className="color-option"
-                      style={{ backgroundColor: color }}
-                      onClick={() => setBgColor(color)}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
+            <Menu
+              anchorEl={colorAnchorEl}
+              open={openColorPalette}
+              onClose={handleColorClose}
+            >
+              <div className="color-palate-cnt">
+                <div
+                  className="col1"
+                  onClick={() => handleNoteIconClick("#FFFFFF")}
+                ></div>
+                <div
+                  className="col2"
+                  onClick={() => handleNoteIconClick("#FAAFA8")}
+                ></div>
+                <div
+                  className="col3"
+                  onClick={() => handleNoteIconClick("#F39F76")}
+                ></div>
+                <div
+                  className="col4"
+                  onClick={() => handleNoteIconClick("#FFF8B8")}
+                ></div>
+                <div
+                  className="col5"
+                  onClick={() => handleNoteIconClick("#E2F6D3")}
+                ></div>
+                <div
+                  className="col6"
+                  onClick={() => handleNoteIconClick("#B4DDD3")}
+                ></div>
+                <div
+                  className="col7"
+                  onClick={() => handleNoteIconClick("#D4E4ED")}
+                ></div>
+                <div
+                  className="col8"
+                  onClick={() => handleNoteIconClick("#AECCDC")}
+                ></div>
+                <div
+                  className="col9"
+                  onClick={() => handleNoteIconClick("#D3BFDB")}
+                ></div>
+                <div
+                  className="col10"
+                  onClick={() => handleNoteIconClick("#F6E2DD")}
+                ></div>
+                <div
+                  className="col11"
+                  onClick={() => handleNoteIconClick("#E9E3D4")}
+                ></div>
+                <div
+                  className="col12"
+                  onClick={() => handleNoteIconClick("#EFEFF1")}
+                ></div>
+              </div>
+            </Menu>
+
+
 
             <IconButton aria-label="add image">
               <ImageIcon />
@@ -100,7 +145,7 @@ export default function NoteCards({ noteDetails, handleNotesList, container }) {
 
             {container === "archive" ? (
               <IconButton
-                aria-label="archive note"
+                aria-label="unarchive note"
                 onClick={() => handleNoteIconClick("unArchive")}
               >
                 <UnarchiveIcon />
@@ -120,7 +165,7 @@ export default function NoteCards({ noteDetails, handleNotesList, container }) {
 
             <Menu
               anchorEl={anchorEl}
-              open={open}
+              open={Boolean(anchorEl)}
               onClose={handleClose}
               TransitionComponent={Fade}
             >
@@ -130,6 +175,20 @@ export default function NoteCards({ noteDetails, handleNotesList, container }) {
               <MenuItem onClick={handleClose}>Add label</MenuItem>
               <MenuItem onClick={handleClose}>Make a copy</MenuItem>
             </Menu>
+
+            <Modal
+              open={openEditNote}
+              onClose={() => setOpenEditNote(false)}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <AddNotes
+                noteDetails={noteDetails}
+                editMode={true}
+                handleNotesList={handleNotesList}
+                closeEditNote={setOpenEditNote}
+              />
+            </Modal>
           </div>
         )}
 
@@ -155,7 +214,6 @@ export default function NoteCards({ noteDetails, handleNotesList, container }) {
             </div>
           </div>
         )}
-
       </div>
     </div>
   );
