@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getArchivedNotes } from "../../utils/Apis";
 import "./ArchiveContainer.css";
 import NoteCards from "../noteCards/NoteCards";
+import { SearchQueryContext } from "../searchQueryHoc/SearchQueryHoc";
 
 export default function ArchiveContainer() {
-  const [archiveList, setArchiveList] = useState([]); 
+  const [archiveList, setArchiveList] = useState([]);
+  const searchQuery = useContext(SearchQueryContext)
 
   useEffect(() => {
     fetchArchiveNotes();
   }, []);
+
+  useEffect(() => {
+  }, [searchQuery]);
 
   const fetchArchiveNotes = async () => {
     try {
@@ -36,15 +41,21 @@ export default function ArchiveContainer() {
     }
   };
 
+  const filteredNotes = archiveList.filter(
+    (note) =>
+      note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      note.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="main-container">
-      <div className="note-container">
-        {archiveList.length === 0 ? (
+      <div className="archive-container">
+        {filteredNotes.length === 0 ? (
           <div className="empty-trash-container">
             <p>No notes available.</p>
           </div>
         ) : (
-          archiveList.map((archiveObj) => (
+          filteredNotes.map((archiveObj) => (
             <NoteCards
               key={archiveObj.id}
               noteDetails={archiveObj}

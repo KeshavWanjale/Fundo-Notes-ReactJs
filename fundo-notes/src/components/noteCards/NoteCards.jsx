@@ -182,12 +182,14 @@ export default function NoteCards({ noteDetails, handleNotesList, container }) {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <AddNotes
-                noteDetails={noteDetails}
-                editMode={true}
-                handleNotesList={handleNotesList}
-                closeEditNote={setOpenEditNote}
-              />
+              <div>
+                <AddNotes
+                  noteDetails={noteDetails}
+                  editMode={true}
+                  handleNotesList={handleNotesList}
+                  closeEditNote={setOpenEditNote}
+                />
+              </div>
             </Modal>
           </div>
         )}

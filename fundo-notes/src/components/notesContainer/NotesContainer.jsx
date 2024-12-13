@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import './NotesContainer.css'
+import React, { useState, useEffect, useContext } from 'react';
 import NoteCards from '../noteCards/NoteCards';
 import AddNotes from '../addNotes/AddNotes';
-import './NotesContainer.css'
 import { getAllNotesApiCall } from '../../utils/Apis';
+import { SearchQueryContext } from '../searchQueryHoc/SearchQueryHoc';
 
 export default function NotesContainer() {
   const [notesList, setNotesList] = useState([]);
+  const searchQuery = useContext(SearchQueryContext)
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log(searchQuery)
+  }, [searchQuery])
 
   const fetchData = async () => {
     try {
@@ -40,15 +46,23 @@ export default function NotesContainer() {
     else {
       console.error("Unknown action:", action);
     }
+
   };
+
+  // Filter notes based on search query
+  const filteredNotes = notesList.filter(
+    (note) =>
+      note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      note.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <>
       <AddNotes handleNotesList={handleNotesList} />
       <div className="space-container">
         <div className="note-container">
-          {notesList.length > 0 ? (
-            notesList.map((noteObj) => <NoteCards key={noteObj.id} noteDetails={noteObj}
+          {filteredNotes.length > 0 ? (
+            filteredNotes.map((noteObj) => <NoteCards key={noteObj.id} noteDetails={noteObj}
               handleNotesList={handleNotesList}
               container={"notes"}
             />)

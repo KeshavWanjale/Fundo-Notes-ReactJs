@@ -1,9 +1,13 @@
 import RoutingModule from './RoutingModule'
+import SearchQueryHoc from './components/searchQueryHoc/SearchQueryHoc';
 
 function App() {
   return (
     <div className="App">
-      <RoutingModule/>
+      <SearchQueryHoc>
+        <RoutingModule />
+      </SearchQueryHoc>
+
     </div>
   );
 }

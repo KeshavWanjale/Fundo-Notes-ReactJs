@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getTrashedNotes } from "../../utils/Apis";
 import "./TrashContainer.css";
 import NoteCards from "../noteCards/NoteCards";
+import { SearchQueryContext } from "../searchQueryHoc/SearchQueryHoc";
 
 
 export default function TrashContainer() {
-  const [trashList, setTrashList] = useState([]); 
+  const [trashList, setTrashList] = useState([]);
+  const searchQuery = useContext(SearchQueryContext)
 
   useEffect(() => {
     fetchArchiveNotes();
   }, []);
+
+  useEffect(() => {
+
+  }, [searchQuery])
+
 
   const fetchArchiveNotes = async () => {
     try {
@@ -33,15 +40,21 @@ export default function TrashContainer() {
     }
   };
 
+  const filteredNotes = trashList.filter(
+    (note) =>
+      note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      note.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="main-container">
-      <div className="note-container">
-        {trashList.length === 0 ? (
+      <div className="trash-container">
+        {filteredNotes.length === 0 ? (
           <div className="empty-trash-container">
-            <p>No notes available.</p>   
+            <p>No notes available.</p>
           </div>
         ) : (
-          trashList.map((trashObj) => (
+          filteredNotes.map((trashObj) => (
             <NoteCards
               key={trashObj.id}
               noteDetails={trashObj}
