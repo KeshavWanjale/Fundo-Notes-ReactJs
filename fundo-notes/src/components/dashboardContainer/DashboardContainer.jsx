@@ -7,8 +7,16 @@ import "./DashboardContainer.css";
 export default function DashboardContainer() {
   return (
     <div className="dashboard-main-cnt">
-      <HeaderBar/>
-      <Outlet/>
+      <HeaderBar />
+
+      <div style={{ width: "100%", display: "flex", marginTop: "80px" }}>
+        <div>
+          <span>icons</span>
+        </div>
+        <Outlet />
+      </div>
+
+
     </div>
   )
 }

@@ -9,6 +9,7 @@ import TrashContainer from "./components/trashContainer/TrashContainer";
 import NoteCards from "./components/noteCards/NoteCards";
 import AddNotes from "./components/addNotes/AddNotes";
 import HeaderBar from "./components/headerBar/HeaderBar";
+import AuthGuard from "./AuthGuard";
 
 
 export default function RoutingModule() {
@@ -32,7 +33,7 @@ export default function RoutingModule() {
 
         {
             'path': 'dashboard',
-            'element': <DashboardContainer />,
+            'element': <AuthGuard Component={DashboardContainer} />,
             'children': [
                 {
                     path: "notes",
